@@ -82,6 +82,18 @@ input[type=color]{width:100%;height:42px;border:1px solid var(--line);border-rad
 #sheet.tp{align-items:flex-start}
 #sheet.tp>div{border-radius:0 0 22px 22px;border-top:0;padding-top:calc(18px + env(safe-area-inset-top));animation:down .28s cubic-bezier(.2,.8,.2,1)}
 @keyframes down{from{transform:translateY(-40px);opacity:0}}
+.fgrid{display:flex;flex-wrap:wrap;gap:6px;margin-top:8px}.fgrid button{font-size:22px;background:var(--bg);border:1px solid var(--line);border-radius:10px;padding:4px 8px;cursor:pointer}
+#load{position:fixed;inset:0;z-index:100;background:var(--bg,#0b0f19);display:flex;align-items:center;justify-content:center;opacity:0;pointer-events:none;transition:opacity .35s}
+#load.on{opacity:1;pointer-events:auto}
+.ld{text-align:center;display:flex;flex-direction:column;align-items:center;gap:14px}
+#lf{font-size:64px;animation:pulse 1.2s ease-in-out infinite}
+@keyframes pulse{50%{transform:scale(1.12)}}
+#ls{color:var(--m);font-size:14px}
+.lb{width:180px;height:6px;border-radius:99px;background:var(--line);overflow:hidden}
+.lb i{display:block;height:100%;width:0;background:linear-gradient(90deg,var(--g,#10b981),var(--ng,#34d399))}
+#load.on .lb i{animation:fill var(--d,1300ms) linear forwards}
+@keyframes fill{to{width:100%}}
+.lm{background:none;border:0;color:var(--ng);cursor:pointer;margin-top:6px;font-size:13px;text-decoration:underline}
 .empty{text-align:center;padding:36px 8px}
 .empty .big{font-size:54px;color:var(--t)}
 .pill{display:inline-block;font-size:11px;padding:2px 9px;border-radius:99px;background:color-mix(in srgb,var(--g) 18%,transparent);color:var(--ng)}
@@ -104,6 +116,7 @@ nav button.on{color:var(--ng)} nav button.on b{filter:none;opacity:1}
 </style>
 </head>
 <body>
+<div id="load" class="on"><div class="ld"><div id="lf">📖</div><div class="logo">Lingo Track</div><div id="ls">Carregando…</div><div class="lb"><i></i></div></div></div>
 <div id="app"></div>
 <div id="sheet"></div>
 <div id="toasts"></div>
@@ -132,28 +145,32 @@ function panelHtml(){
 const w=t=>/[\u0600-\u06FF]/.test(t)?`<span dir="rtl" class="ar">${esc(t)}</span>`:esc(t);
 const DEF={fs:26,c1:'#fbbf24',c2:'#34d399',c3:'#a78bfa'};
 const THEMES={escuro:{bg:'#0b0f19',card:'#131c2e',hover:'#1a2640',line:'#22324f',t:'#f3f4f6',m:'#8b97ad',glow:'#10243a'},claro:{bg:'#f4f6fb',card:'#ffffff',hover:'#eef2f9',line:'#d8dfec',t:'#111827',m:'#5b6678',glow:'#dbe7ff'},oceano:{bg:'#08131f',card:'#0e2236',hover:'#14304b',line:'#1c4263',t:'#eaf4ff',m:'#86a3bd',glow:'#0d3b5c'},floresta:{bg:'#0a140f',card:'#112119',hover:'#183024',line:'#214634',t:'#ecf8f0',m:'#8aab97',glow:'#0f3a26'},sol:{bg:'#170d0d',card:'#261515',hover:'#331c1c',line:'#4a2a24',t:'#fff1ea',m:'#bb9a8e',glow:'#4a1f14'},roxo:{bg:'#100b1c',card:'#1a1330',hover:'#241a42',line:'#342663',t:'#f1ecff',m:'#a597c9',glow:'#2e1a5c'}};
+const APP={v:'0.2',d:'08/11/2026'};
+const CHANGES=[['0.2','08/11/2026','Novo Lingo Track: vários idiomas, cada um com cor e tema próprios, metas, notas, flashcards com transcrição, backup e telas de carregamento.'],['0.1','','Time Tracking: versão simples, com um único idioma.']];
+const anosApp=()=>{const a=+APP.d.slice(-4),n=new Date().getFullYear();return a===n?String(a):a+'–'+n};
 const TEMAS=[['auto','Automático'],['escuro','Escuro'],['claro','Claro'],['oceano','Oceano'],['floresta','Floresta'],['sol','Pôr do sol'],['roxo','Roxo'],['custom','Personalizado']];
 const DEFL={fs:26,c1:'#b45309',c2:'#047857',c3:'#6d28d9'};
 const isLight=h=>{const n=parseInt(h.slice(1),16);return .299*(n>>16&255)+.587*(n>>8&255)+.114*(n&255)>150};
 const darken=h=>{const n=parseInt(h.slice(1),16);return '#'+[n>>16&255,n>>8&255,n&255].map(v=>Math.round(v*.72).toString(16).padStart(2,'0')).join('')};
-function themeVars(){let id=S.tema||'escuro';if(id==='auto')id=(typeof matchMedia==='function'&&matchMedia('(prefers-color-scheme: light)').matches)?'claro':'escuro';
-  const v=Object.assign({},THEMES[id]||THEMES.escuro);if(id==='custom'&&S.custom){Object.assign(v,S.custom);v.hover=v.card;v.glow=v.bg}return v}
+function themeVars(){const lg0=L();let id=(lg0&&lg0.tema)||'escuro';if(id==='auto')id=(typeof matchMedia==='function'&&matchMedia('(prefers-color-scheme: light)').matches)?'claro':'escuro';
+  const v=Object.assign({},THEMES[id]||THEMES.escuro);if(id==='custom'&&lg0&&lg0.custom){Object.assign(v,lg0.custom);v.hover=v.card;v.glow=v.bg}return v}
 function applyCfg(){const th=themeVars(),lt=isLight(th.bg),c=Object.assign({},lt?DEFL:DEF,S.cfg),r=document.documentElement.style;
   ['bg','card','hover','line','t','m','glow'].forEach(k=>r.setProperty('--'+k,th[k]));
   r.setProperty('--y',lt?'#d97706':'#f59e0b');r.setProperty('--ny',lt?'#b45309':'#fbbf24');r.colorScheme=lt?'light':'dark';
   const mt=document.querySelector('meta[name=theme-color]');if(mt)mt.setAttribute('content',th.bg);
   r.setProperty('--fs',c.fs+'px');r.setProperty('--c1',c.c1);r.setProperty('--c2',c.c2);r.setProperty('--c3',c.c3);
   const lg=L();if(lg){const cor=lg.cor||PAL[0];r.setProperty('--g',cor);r.setProperty('--ng',lt?darken(cor):lighten(cor))}}
-function temaCard(){const cur=S.tema||'escuro';
+function temaCard(){const lg=L(),cur=(lg&&lg.tema)||'escuro';
   const sw=id=>id==='auto'?`linear-gradient(135deg,${THEMES.escuro.bg} 50%,${THEMES.claro.bg} 50%)`:id==='custom'?'conic-gradient(#f87171,#fbbf24,#34d399,#38bdf8,#a78bfa,#f87171)':`linear-gradient(135deg,${THEMES[id].bg} 50%,${THEMES[id].card} 50%)`;
-  const cu=Object.assign({},THEMES.escuro,S.custom);
-  return `<div class="card"><h2>Tema</h2><div class="tgrid">${TEMAS.map(t=>`<button class="tbtn ${cur===t[0]?'on':''}" data-act="tema" data-id="${t[0]}"><span class="tsw" style="background:${sw(t[0])}"></span>${t[1]}</button>`).join('')}</div>${cur==='custom'?`<div class="two">${[['bg','Fundo'],['card','Cartões'],['t','Texto'],['m','Texto secundário'],['line','Bordas']].map(x=>`<div><label>${x[1]}</label><input type="color" value="${cu[x[0]]}" data-ct="${x[0]}"></div>`).join('')}</div>`:''}</div>`}
+  const cu=Object.assign({},THEMES.escuro,lg.custom);
+  return `<div class="card"><h2>Tema de ${esc(lg.nome)}</h2><p class="mut" style="margin-bottom:10px">Cada idioma tem o seu próprio tema.</p><div class="tgrid">${TEMAS.map(t=>`<button class="tbtn ${cur===t[0]?'on':''}" data-act="tema" data-id="${t[0]}"><span class="tsw" style="background:${sw(t[0])}"></span>${t[1]}</button>`).join('')}</div>${cur==='custom'?`<div class="two">${[['bg','Fundo'],['card','Cartões'],['t','Texto'],['m','Texto secundário'],['line','Bordas']].map(x=>`<div><label>${x[1]}</label><input type="color" value="${cu[x[0]]}" data-ct="${x[0]}"></div>`).join('')}</div>`:''}</div>`}
 function cfgCard(){const c=Object.assign({},isLight(themeVars().bg)?DEFL:DEF,S.cfg);return `<div class="card"><h2>Aparência das palavras</h2><div class="log" style="justify-content:center;flex-direction:column;text-align:center;margin:0 0 6px"><b style="color:var(--c1);font-size:var(--fs)"><span dir="rtl">كتاب</span></b><span style="color:var(--c3);font-size:calc(var(--fs)*.55)">kitāb</span><span style="color:var(--c2);font-size:var(--fs)">livro</span></div><label>Tamanho da letra</label><input type="range" min="16" max="56" value="${c.fs}" data-cfg="fs"><div class="two"><div><label>Palavra</label><input type="color" value="${c.c1}" data-cfg="c1"></div><div><label>Tradução</label><input type="color" value="${c.c2}" data-cfg="c2"></div></div><label>Transcrição</label><input type="color" value="${c.c3}" data-cfg="c3"><button class="btn sec" data-act="cfgreset">Restaurar padrão</button></div>`}
 const mesNome=k=>`${MES[+k.slice(5,7)-1]} / ${k.slice(0,4)}`;
 
 let S=load();
 const PAL=['#10b981','#f59e0b','#38bdf8','#a78bfa','#f472b6','#fb7185','#2dd4bf','#a3e635'];
-S.langs.forEach((l,i)=>{if(!l.cor)l.cor=PAL[i%PAL.length]});
+function migrar(){S.langs.forEach((l,i)=>{if(!l.cor)l.cor=PAL[i%PAL.length]});if(S.tema){S.langs.forEach(l=>{if(!l.tema){l.tema=S.tema;if(S.custom)l.custom=S.custom}});delete S.tema;delete S.custom}}
+migrar();
 let ui={tab:'inicio',edit:null,card:null};
 function load(){try{const d=JSON.parse(localStorage.getItem(KEY));if(d&&Array.isArray(d.langs))return d}catch(e){}return{langs:[],atual:null}}
 let avisou=false;
@@ -176,6 +193,10 @@ function toast(msg,act){
   if(act){const b=document.createElement('button');b.textContent=act.label;b.onclick=()=>{act.fn();el.remove()};el.appendChild(b)}
   $('#toasts').appendChild(el);setTimeout(()=>el.remove(),act?5000:2800);
 }
+const FLAGS=['🇺🇸','🇬🇧','🇸🇦','🇪🇬','🇧🇷','🇵🇹','🇪🇸','🇫🇷','🇩🇪','🇮🇹','🇯🇵','🇰🇷','🇨🇳','🇷🇺','🇹🇷','🇮🇳','🌍','📚','🕌','🐪'];
+const flagBtns=()=>FLAGS.map(f=>`<button type="button" data-act="pickflag" data-f="${f}">${f}</button>`).join('');
+const LOAD_MS=2500;
+function showLoad(flag,txt,ms){const o=$('#load');clearTimeout(ui.lt);o.style.setProperty('--d',ms+'ms');$('#lf').textContent=flag;$('#ls').textContent=txt;o.classList.remove('on');void o.offsetWidth;o.classList.add('on');ui.lt=setTimeout(()=>o.classList.remove('on'),ms)}
 function sheet(html,top){$('#sheet').innerHTML=`<div>${html}</div>`;$('#sheet').classList.toggle('tp',!!top);$('#sheet').classList.add('on');const i=$('#sheet input[type=text]');if(i)setTimeout(()=>i.focus(),80)}
 function closeSheet(){$('#sheet').classList.remove('on')}
 function confirmSheet(txt,fn,label='Confirmar'){ui.ok=fn;sheet(`<h2>${txt}</h2><button class="btn ${label==='Apagar'?'red':''}" data-act="ok">${label}</button><button class="btn sec" data-act="close">Cancelar</button>`)}
@@ -216,7 +237,7 @@ metas(l){
   `<h2 style="margin:20px 2px 0">Concluídas</h2>`+(c.map(m=>`<div class="log"><div><b>${m.horas}h</b> ✅<small>${br(m.criada)} até ${br(m.fim)} · ${dias(m.criada,m.fim)} dias</small></div><button class="ib" data-act="delmeta" data-id="${m.id}" aria-label="Apagar">✕</button></div>`).join('')||'<p class="mut">Ainda nenhuma.</p>');
 },
 ajustes(l){
-  return temaCard()+`<div class="card"><h2>Backup (todos os idiomas)</h2><button class="btn" data-act="export">Baixar backup (JSON)</button><button class="btn sec" data-act="copy">Copiar JSON</button><button class="btn sec" data-act="import">Importar backup</button></div><div class="card"><h2>Idioma: ${esc(l.nome)}</h2><label>Criado em</label><div class="row"><b>${l.criado?br(l.criado):'não registrada'}</b><button class="ib" style="width:auto;padding:0 14px" data-act="chdate">Alterar</button></div>${(l.hd||[]).slice(-3).reverse().map(h=>`<small class="mut" style="display:block;margin-top:4px">Alterada em ${br(h.em)}: ${h.de?br(h.de):'vazia'} → ${br(h.para)}</small>`).join('')}<label>Última alteração</label><b>${dt(l.alterado)}</b><label>Cor do idioma</label>${swHtml('lcor',l.cor||PAL[0],'data-lcor')}<p class="mut" style="margin-top:12px">Apaga todas as sessões, palavras e metas deste idioma.</p><button class="btn red" data-act="dellang">Apagar este idioma</button></div><p class="mut" style="text-align:center;margin-top:18px">Seus dados ficam só neste navegador. Faça backup de vez em quando.</p>`;
+  return temaCard()+`<div class="card"><h2>Backup (todos os idiomas)</h2><button class="btn" data-act="export">Baixar backup (JSON)</button><button class="btn sec" data-act="copy">Copiar JSON</button><button class="btn sec" data-act="import">Importar backup</button></div><div class="card"><h2>Idioma: ${esc(l.nome)}</h2><div class="row" style="margin-bottom:4px"><span style="font-size:34px">${esc(l.flag||'🌍')}</span><button class="ib" style="width:auto;padding:0 14px;height:38px" data-act="editlang">Editar nome e ícone</button></div><label>Criado em</label><div class="row"><b>${l.criado?br(l.criado):'não registrada'}</b><button class="ib" style="width:auto;padding:0 14px" data-act="chdate">Alterar</button></div>${(l.hd||[]).slice(-3).reverse().map(h=>`<small class="mut" style="display:block;margin-top:4px">Alterada em ${br(h.em)}: ${h.de?br(h.de):'vazia'} → ${br(h.para)}</small>`).join('')}<label>Última alteração</label><b>${dt(l.alterado)}</b><label>Cor do idioma</label>${swHtml('lcor',l.cor||PAL[0],'data-lcor')}<p class="mut" style="margin-top:12px">Apaga todas as sessões, palavras e metas deste idioma.</p><button class="btn red" data-act="dellang">Apagar este idioma</button></div><p class="mut" style="text-align:center;margin-top:18px">Seus dados ficam só neste navegador. Faça backup de vez em quando.</p><div class="mut" style="text-align:center;font-size:12px;margin:22px 0 6px;line-height:1.7"><div>Lingo Track · versão ${APP.v}</div><div>Made by Emanuel · © ${anosApp()}</div><div>Criado em ${APP.d}</div><button class="lm" data-act="versoes">Ler mais</button></div>`;
 }};
 
 function render(){
@@ -230,13 +251,19 @@ function render(){
 }
 
 const acts={
-  lang(d){S.atual=d.id;ui.edit=null;ui.card=null;save();closeSheet();render()},
-  tema(d){S.tema=d.id;if(d.id==='custom'&&!S.custom){const b=THEMES.escuro;S.custom={bg:b.bg,card:b.card,t:b.t,m:b.m,line:b.line}}save();render()},
+  lang(d){closeSheet();if(d.id===S.atual){ui.tab='inicio';render();return}
+    const l=S.langs.find(x=>x.id===d.id);if(!l)return;
+    showLoad(l.flag||'🌍','Abrindo '+l.nome+'…',LOAD_MS);
+    setTimeout(()=>{S.atual=d.id;ui.tab='inicio';ui.edit=null;ui.card=null;save();render();scrollTo(0,0)},350)},
+  tema(d){const l=L();l.tema=d.id;if(d.id==='custom'&&!l.custom){const b=THEMES.escuro;l.custom={bg:b.bg,card:b.card,t:b.t,m:b.m,line:b.line}}touch(l);save();render()},
+  pickflag(d){const i=$('#sheet [name=flag]');if(i)i.value=d.f},
+  editlang(){const l=L();sheet(`<div data-form="editlang"><h2>Editar idioma</h2><label>Nome</label><input type="text" name="nome" value="${esc(l.nome)}" maxlength="24" autocomplete="off"><label>Ícone ou bandeira (digite, cole ou escolha)</label><input type="text" name="flag" value="${esc(l.flag||'')}" autocomplete="off"><div class="fgrid">${flagBtns()}</div><button class="btn" data-act="submit">Salvar</button><button class="btn sec" data-act="close">Cancelar</button></div>`)},
+  versoes(){sheet(`<h2>Histórico de versões</h2><p class="mut">O Lingo Track é uma versão atualizada do Time Tracking, o app mais simples que só aceitava um idioma. Aqui ficam as melhorias de cada versão.</p>${CHANGES.map(c=>`<div style="margin:14px 0"><b>Versão ${c[0]}</b>${c[1]?` <span class="mut">· ${c[1]}</span>`:''}<div class="mut">${c[2]}</div></div>`).join('')}<button class="btn sec" data-act="close">Fechar</button>`)},
   panel(){sheet(panelHtml(),true)},
   chdate(){const l=L();confirmSheet(`Alterar a data de criação de ${esc(l.nome)}? Hoje ela é ${l.criado?br(l.criado):'vazia'}.`,()=>acts.pickdate(),'Continuar')},
   pickdate(){const l=L();sheet(`<div data-form="pickdate"><h2>Nova data de criação</h2><input type="date" name="d" value="${l.criado||today()}"><button class="btn" data-act="submit">Continuar</button><button class="btn sec" data-act="close">Cancelar</button></div>`)},
   tab(d){ui.tab=d.tab;ui.edit=null;render();scrollTo(0,0)},
-  newlang(){sheet(`<div data-form="lang"><h2>Novo idioma</h2><label>Nome</label><input type="text" name="nome" placeholder="Ex.: Inglês" maxlength="24" required autocomplete="off"><label>Emoji ou bandeira (opcional)</label><input type="text" name="flag" placeholder="🇺🇸" maxlength="4" autocomplete="off"><label>Cor</label>${swHtml('cor',PAL.find(c=>!S.langs.some(x=>x.cor===c))||PAL[0])}<button class="btn" data-act="submit">Criar idioma</button><button type="button" class="btn sec" data-act="close">Cancelar</button></div>`)},
+  newlang(){sheet(`<div data-form="lang"><h2>Novo idioma</h2><label>Nome</label><input type="text" name="nome" placeholder="Ex.: Inglês" maxlength="24" required autocomplete="off"><label>Emoji ou bandeira (opcional)</label><input type="text" name="flag" placeholder="🇺🇸" autocomplete="off"><div class="fgrid">${flagBtns()}</div><label>Cor</label>${swHtml('cor',PAL.find(c=>!S.langs.some(x=>x.cor===c))||PAL[0])}<button class="btn" data-act="submit">Criar idioma</button><button type="button" class="btn sec" data-act="close">Cancelar</button></div>`)},
   close:closeSheet,
   ok(){closeSheet();const f=ui.ok;ui.ok=null;f&&f()},
   flip(d,b){b.classList.toggle('f')},
@@ -250,7 +277,9 @@ const acts={
   delmeta(d){confirmSheet('Tem certeza que quer apagar esta meta?',()=>acts._delmeta(d),'Apagar')},
   _delmeta(d){const l=L(),m=l.metas.find(x=>x.id===d.id);l.metas=l.metas.filter(x=>x.id!==d.id);touch(l);save();render();toast('Meta apagada',{label:'Desfazer',fn:()=>{l.metas.push(m);touch(l);save();render()}})},
   dellang(){const l=L();sheet(`<div data-form="dellang"><h2>Apagar ${esc(l.nome)}?</h2><p class="mut">Isso remove ${l.regs.length} sessões e ${l.palavras.length} palavras. Para confirmar, digite o nome do idioma.</p><input type="text" name="n" placeholder="${esc(l.nome)}" autocomplete="off"><button class="btn red" data-act="submit">Apagar de vez</button><button type="button" class="btn sec" data-act="close">Cancelar</button></div>`)},
-  export(){const a=document.createElement('a');a.href=URL.createObjectURL(new Blob([JSON.stringify(S,null,2)],{type:'application/json'}));a.download=`lingo-track-backup-${today()}.json`;document.body.appendChild(a);a.click();a.remove();toast('Backup baixado')},
+  async export(){const txt=JSON.stringify(S,null,2),nome=`lingo-track-backup-${today()}.json`;
+    try{if(window.claude&&claude.use){const d=await claude.use('downloads');if(d){await d.save({filename:nome,data:txt});toast('Backup salvo');return}}}catch(e){if(e&&e.code==='declined')return}
+    const a=document.createElement('a');a.href=URL.createObjectURL(new Blob([txt],{type:'application/json'}));a.download=nome;document.body.appendChild(a);a.click();a.remove();toast('Backup baixado')},
   copy(){navigator.clipboard.writeText(JSON.stringify(S,null,2)).then(()=>toast('JSON copiado')).catch(()=>toast('Não consegui copiar. Use "Baixar backup".'))},
   cfgreset(){delete S.cfg;save();render()},
   import(){$('#file').click()},
@@ -264,6 +293,9 @@ const acts={
 };
 function fields(el){return new Proxy({},{get:(_,k)=>{const all=el.querySelectorAll(`[name="${k}"]`);if(all.length>1&&all[0].type==='radio'){const c=el.querySelector(`[name="${k}"]:checked`);return{value:c?c.value:''}}return all[0]}})}
 const forms={
+  editlang(f){const l=L(),nome=f.nome.value.trim();if(!nome)return toast('Digite o nome do idioma');
+    if(S.langs.some(x=>x.id!==l.id&&x.nome.toLowerCase()===nome.toLowerCase()))return toast('Já existe um idioma com esse nome');
+    l.nome=nome;l.flag=f.flag.value.trim();touch(l);save();closeSheet();render();toast('Idioma atualizado')},
   pickdate(f){const l=L(),n=f.d.value;if(!n)return toast('Escolha a data');if(n===l.criado){closeSheet();return toast('A data é a mesma')}
     closeSheet();confirmSheet(`Confirma mudar a data de criação de ${l.criado?br(l.criado):'vazia'} para ${br(n)}?`,()=>{(l.hd=l.hd||[]).push({de:l.criado||'',para:n,em:today()});l.criado=n;touch(l);save();render();toast('Data atualizada')},'Confirmar')},
   lang(f){const nome=f.nome.value.trim();if(!nome)return toast('Digite o nome do idioma');if(S.langs.some(x=>x.nome.toLowerCase()===nome.toLowerCase()))return toast('Esse idioma já existe');
@@ -279,16 +311,21 @@ const forms={
 };
 document.addEventListener('click',e=>{const b=e.target.closest('[data-act]');if(b&&acts[b.dataset.act])acts[b.dataset.act](b.dataset,b);else if(e.target.id==='sheet')closeSheet()});
 document.addEventListener('keydown',e=>{if(e.key==='Enter'&&e.target.tagName==='INPUT'){const el=e.target.closest('[data-form]');if(el){e.preventDefault();const ins=[...el.querySelectorAll('input:not([type=radio])')],i=ins.indexOf(e.target);if(i>=0&&i<ins.length-1)ins[i+1].focus();else forms[el.dataset.form](fields(el))}}});
-document.addEventListener('input',e=>{if(e.target.dataset.lcor!==undefined){L().cor=e.target.value;touch(L());save();applyCfg();return}if(e.target.dataset.ct){S.custom=Object.assign({},S.custom,{[e.target.dataset.ct]:e.target.value});applyCfg();save();return}const k=e.target.dataset.cfg;if(!k)return;S.cfg=Object.assign({},S.cfg,{[k]:e.target.value});applyCfg();save()});
+document.addEventListener('input',e=>{if(e.target.dataset.lcor!==undefined){L().cor=e.target.value;touch(L());save();applyCfg();return}if(e.target.dataset.ct){const l=L();l.custom=Object.assign({},l.custom,{[e.target.dataset.ct]:e.target.value});touch(l);applyCfg();save();return}const k=e.target.dataset.cfg;if(!k)return;S.cfg=Object.assign({},S.cfg,{[k]:e.target.value});applyCfg();save()});
 $('#file').addEventListener('change',e=>{
   const file=e.target.files[0];e.target.value='';if(!file)return;
   const r=new FileReader();
   r.onload=()=>{try{const d=JSON.parse(r.result);if(!d||!Array.isArray(d.langs))throw 0;
-    confirmSheet(`Importar backup com ${d.langs.length} idioma(s)? Isso substitui os dados atuais.`,()=>{S={langs:d.langs,atual:d.atual||(d.langs[0]&&d.langs[0].id)||null,cfg:d.cfg,tema:d.tema,custom:d.custom};ui.tab='inicio';save();render();toast('Backup importado')},'Importar')}
+    confirmSheet(`Importar backup com ${d.langs.length} idioma(s)? Isso substitui os dados atuais.`,()=>{S={langs:d.langs,atual:d.atual||(d.langs[0]&&d.langs[0].id)||null,cfg:d.cfg,tema:d.tema,custom:d.custom};migrar();ui.tab='inicio';save();render();toast('Backup importado')},'Importar')}
     catch(x){toast('Arquivo inválido. Use um backup do Lingo Track.')}};
   r.readAsText(file);
 });
 render();
+showLoad(L()?(L().flag||'🌍'):'📖','Carregando…',1300);
+let oculto=0;
+function retomar(){closeSheet();ui.tab='inicio';ui.edit=null;render();scrollTo(0,0);showLoad(L()?(L().flag||'🌍'):'📖','Abrindo…',1300)}
+document.addEventListener('visibilitychange',()=>{if(document.hidden){oculto=Date.now()}else{if(oculto&&Date.now()-oculto>5000)retomar();oculto=0}});
+if(typeof window!=='undefined')window.addEventListener('pageshow',e=>{if(e.persisted)retomar()});
 </script>
 </body>
 </html>
