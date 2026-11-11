@@ -49,7 +49,7 @@ input:focus{border-color:var(--g)}
 .seg input{display:none}
 .seg span{display:block;text-align:center;padding:10px 4px;font-size:13px;border:1px solid var(--line);border-radius:12px;background:var(--bg);cursor:pointer;transition:.15s}
 .seg input:checked+span{background:color-mix(in srgb,var(--g) 18%,transparent);border-color:var(--g);color:var(--ng);font-weight:600}
-.btn{width:100%;margin-top:14px;padding:13px;border:0;border-radius:12px;background:var(--g);color:#06231a;font-weight:700;cursor:pointer;transition:transform .1s}
+.btn{width:100%;margin-top:14px;padding:13px;border:0;border-radius:12px;background:var(--g);color:var(--on,#06231a);font-weight:700;cursor:pointer;transition:transform .1s}
 .btn:active{transform:scale(.97)}
 .btn.sec{background:var(--bg);color:var(--t);border:1px solid var(--line);margin-top:8px;font-weight:500}
 .btn.red{background:rgba(248,113,113,.12);color:var(--r);border:1px solid rgba(248,113,113,.4)}
@@ -59,7 +59,7 @@ input:focus{border-color:var(--g)}
 .fc{perspective:900px;margin-top:6px}
 .fc div{position:relative;height:calc(var(--fs,26px)*2.6 + 60px);transform-style:preserve-3d;transition:transform .55s cubic-bezier(.3,.8,.3,1);cursor:pointer}
 .fc.f div{transform:rotateY(180deg)}
-.fc p{position:absolute;inset:0;backface-visibility:hidden;display:flex;align-items:center;justify-content:center;text-align:center;padding:14px;border-radius:16px;border:1px solid var(--line);background:var(--bg);flex-direction:column;gap:6px;font-size:var(--fs,26px);font-weight:700;color:var(--c1,#fbbf24)}
+.fc p{overflow:hidden;position:absolute;inset:0;backface-visibility:hidden;display:flex;align-items:center;justify-content:center;text-align:center;padding:14px;border-radius:16px;border:1px solid var(--line);background:var(--bg);flex-direction:column;gap:6px;font-size:var(--fs,26px);font-weight:700;color:var(--c1,#fbbf24)}
 .fc p+p{transform:rotateY(180deg);color:var(--c2,#34d399)}
 .tr{font-size:.55em;font-weight:400;color:var(--c3,#a78bfa)}.ar{font-size:1.3em}.log .trl{color:var(--c3);font-size:15px}
 input[type=color]{width:100%;height:42px;border:1px solid var(--line);border-radius:12px;background:var(--bg);padding:3px}input[type=range]{width:100%;accent-color:var(--g)}
@@ -94,6 +94,14 @@ input[type=color]{width:100%;height:42px;border:1px solid var(--line);border-rad
 #load.on .lb i{animation:fill var(--d,1300ms) linear forwards}
 @keyframes fill{to{width:100%}}
 .lm{background:none;border:0;color:var(--ng);cursor:pointer;margin-top:6px;font-size:13px;text-decoration:underline}
+.btn:disabled{opacity:.35}
+.pcard{background:var(--bg);border:1px solid var(--line);border-radius:18px;padding:26px 16px;text-align:center}
+.pw1{font-size:clamp(24px,calc(var(--fs)*1.5),52px);font-weight:700;color:var(--c1);line-height:1.3;overflow-wrap:anywhere}
+.pw2{font-size:clamp(18px,calc(var(--fs)*.85),34px);color:var(--c3);margin-top:10px;overflow-wrap:anywhere}
+.pw3{font-size:clamp(20px,calc(var(--fs)*1.05),38px);color:var(--c2);margin-top:16px;padding-top:16px;border-top:1px solid var(--line);overflow-wrap:anywhere}
+.fi{display:block;overflow-wrap:anywhere;max-width:100%}
+.hexrow{display:flex;gap:10px;align-items:center;margin-top:10px}.hexsw{width:34px;height:34px;border-radius:10px;border:1px solid var(--line);flex:none}.hexrow input,.hx{flex:1;text-transform:lowercase}.hx{margin-top:6px}
+.sub{display:grid;grid-template-columns:1fr 1fr;gap:8px;margin-top:16px}.sub button{padding:11px;border:1px solid var(--line);border-radius:12px;background:var(--card);color:var(--m);cursor:pointer;font-weight:500}.sub button.on{border-color:var(--g);color:var(--ng);background:color-mix(in srgb,var(--g) 14%,transparent);font-weight:600}
 .empty{text-align:center;padding:36px 8px}
 .empty .big{font-size:54px;color:var(--t)}
 .pill{display:inline-block;font-size:11px;padding:2px 9px;border-radius:99px;background:color-mix(in srgb,var(--g) 18%,transparent);color:var(--ng)}
@@ -104,7 +112,7 @@ nav button b{font-size:19px;font-weight:400;filter:grayscale(1);opacity:.7}
 nav button.on{color:var(--ng)} nav button.on b{filter:none;opacity:1}
 #sheet{position:fixed;inset:0;z-index:50;background:rgba(0,0,0,.65);display:none;align-items:flex-end}
 #sheet.on{display:flex}
-#sheet>div{width:100%;max-width:480px;margin:0 auto;background:var(--card);border:1px solid var(--line);border-radius:22px 22px 0 0;padding:20px 18px calc(20px + env(safe-area-inset-bottom));animation:up .28s cubic-bezier(.2,.8,.2,1)}
+#sheet>div{width:100%;max-width:480px;margin:0 auto;background:var(--card);border:1px solid var(--line);border-radius:22px 22px 0 0;padding:20px 18px calc(20px + env(safe-area-inset-bottom));max-height:92vh;overflow-y:auto;animation:up .28s cubic-bezier(.2,.8,.2,1)}
 @keyframes up{from{transform:translateY(40px);opacity:0}}
 #toasts{position:fixed;left:0;right:0;bottom:calc(86px + env(safe-area-inset-bottom));z-index:60;display:flex;flex-direction:column;align-items:center;gap:8px;pointer-events:none}
 .toast{pointer-events:auto;background:var(--hover);border:1px solid var(--line);border-radius:14px;padding:10px 16px;font-size:14px;display:flex;gap:14px;align-items:center;animation:up .25s}
@@ -134,8 +142,11 @@ const touch=l=>{l.alterado=new Date().toISOString()};
 const dt=iso=>{if(!iso)return 'sem registro ainda';const d=new Date(iso),x=new Date(d-d.getTimezoneOffset()*6e4).toISOString();return br(x.slice(0,10))+' às '+x.slice(11,16)};
 const br=d=>d.split('-').reverse().join('/');
 const dias=(a,b)=>Math.round((new Date(b)-new Date(a))/864e5);
+const cores=()=>PAL.concat((S.cores||[]).map(c=>c.hex).filter(h=>!PAL.includes(h)));
+const hexOk=v=>{v=String(v).trim().replace(/^#/,'');if(/^[0-9a-fA-F]{3}$/.test(v))v=v.split('').map(c=>c+c).join('');return /^[0-9a-fA-F]{6}$/.test(v)?'#'+v.toLowerCase():null};
+function setCor(k,v){const l=L(),id=l.tema||'';if(id.startsWith('u:')){const t=(S.temas||[]).find(x=>'u:'+x.id===id);if(t)t[k]=v}else{l.custom=Object.assign({},l.custom,{[k]:v})}touch(l)}
 function lighten(h){const n=parseInt(h.slice(1),16),m=v=>Math.round(v+(255-v)*.3);return '#'+[n>>16&255,n>>8&255,n&255].map(m).map(v=>v.toString(16).padStart(2,'0')).join('')}
-const swHtml=(name,sel,attr)=>`<div class="swatches">${PAL.map(c=>`<label class="sw"><input type="radio" name="${name}" value="${c}" ${c===sel?'checked':''} ${attr||''}><span style="background:${c}"></span></label>`).join('')}</div>`;
+const swHtml=(name,sel,attr)=>`<div class="swatches">${cores().map(c=>`<label class="sw"><input type="radio" name="${name}" value="${c}" ${c===sel?'checked':''} ${attr||''}><span style="background:${c}"></span></label>`).join('')}</div>`;
 function panelHtml(){
   const l=L(),btns=S.langs.map(x=>`<button class="pl ${x.id===S.atual?'on':''}" data-act="lang" data-id="${x.id}" style="--c:${x.cor||PAL[0]}"><span class="pi">${esc(x.flag||'🌍')}</span><span>${esc(x.nome)}</span></button>`).join('');
   let r='';
@@ -153,23 +164,34 @@ const DEFL={fs:26,c1:'#b45309',c2:'#047857',c3:'#6d28d9'};
 const isLight=h=>{const n=parseInt(h.slice(1),16);return .299*(n>>16&255)+.587*(n>>8&255)+.114*(n&255)>150};
 const darken=h=>{const n=parseInt(h.slice(1),16);return '#'+[n>>16&255,n>>8&255,n&255].map(v=>Math.round(v*.72).toString(16).padStart(2,'0')).join('')};
 function themeVars(){const lg0=L();let id=(lg0&&lg0.tema)||'escuro';if(id==='auto')id=(typeof matchMedia==='function'&&matchMedia('(prefers-color-scheme: light)').matches)?'claro':'escuro';
-  const v=Object.assign({},THEMES[id]||THEMES.escuro);if(id==='custom'&&lg0&&lg0.custom){Object.assign(v,lg0.custom);v.hover=v.card;v.glow=v.bg}return v}
+  const v=Object.assign({},THEMES[id]||THEMES.escuro);if(id.startsWith('u:')){const t=(S.temas||[]).find(x=>'u:'+x.id===id);if(t){Object.assign(v,{bg:t.bg,card:t.card,t:t.t,m:t.m,line:t.line});v.hover=v.card;v.glow=v.bg}}if(id==='custom'&&lg0&&lg0.custom){Object.assign(v,lg0.custom);v.hover=v.card;v.glow=v.bg}return v}
 function applyCfg(){const th=themeVars(),lt=isLight(th.bg),c=Object.assign({},lt?DEFL:DEF,S.cfg),r=document.documentElement.style;
   ['bg','card','hover','line','t','m','glow'].forEach(k=>r.setProperty('--'+k,th[k]));
   r.setProperty('--y',lt?'#d97706':'#f59e0b');r.setProperty('--ny',lt?'#b45309':'#fbbf24');r.colorScheme=lt?'light':'dark';
   const mt=document.querySelector('meta[name=theme-color]');if(mt)mt.setAttribute('content',th.bg);
   r.setProperty('--fs',c.fs+'px');r.setProperty('--c1',c.c1);r.setProperty('--c2',c.c2);r.setProperty('--c3',c.c3);
-  const lg=L();if(lg){const cor=lg.cor||PAL[0];r.setProperty('--g',cor);r.setProperty('--ng',lt?darken(cor):lighten(cor))}}
-function temaCard(){const lg=L(),cur=(lg&&lg.tema)||'escuro';
-  const sw=id=>id==='auto'?`linear-gradient(135deg,${THEMES.escuro.bg} 50%,${THEMES.claro.bg} 50%)`:id==='custom'?'conic-gradient(#f87171,#fbbf24,#34d399,#38bdf8,#a78bfa,#f87171)':`linear-gradient(135deg,${THEMES[id].bg} 50%,${THEMES[id].card} 50%)`;
-  const cu=Object.assign({},THEMES.escuro,lg.custom);
-  return `<div class="card"><h2>Tema de ${esc(lg.nome)}</h2><p class="mut" style="margin-bottom:10px">Cada idioma tem o seu próprio tema.</p><div class="tgrid">${TEMAS.map(t=>`<button class="tbtn ${cur===t[0]?'on':''}" data-act="tema" data-id="${t[0]}"><span class="tsw" style="background:${sw(t[0])}"></span>${t[1]}</button>`).join('')}</div>${cur==='custom'?`<div class="two">${[['bg','Fundo'],['card','Cartões'],['t','Texto'],['m','Texto secundário'],['line','Bordas']].map(x=>`<div><label>${x[1]}</label><input type="color" value="${cu[x[0]]}" data-ct="${x[0]}"></div>`).join('')}</div>`:''}</div>`}
+  const lg=L();if(lg){const cor=lg.cor||PAL[0];r.setProperty('--g',cor);r.setProperty('--on',isLight(cor)?'#06231a':'#ffffff');r.setProperty('--ng',lt?darken(cor):lighten(cor))}}
+function temaCard(){const lg=L(),cur=(lg&&lg.tema)||'escuro',us=S.temas||[];
+  const sw=id=>id==='auto'?`linear-gradient(135deg,${THEMES.escuro.bg} 50%,${THEMES.claro.bg} 50%)`:`linear-gradient(135deg,${THEMES[id].bg} 50%,${THEMES[id].card} 50%)`;
+  const btn=(id,nome,bg)=>`<button class="tbtn ${cur===id?'on':''}" data-act="tema" data-id="${id}"><span class="tsw" style="background:${bg}"></span>${nome}</button>`;
+  const base=TEMAS.filter(t=>t[0]!=='custom').map(t=>btn(t[0],t[1],sw(t[0]))).join('');
+  const mine=us.map(t=>btn('u:'+t.id,esc(t.nome),`linear-gradient(135deg,${t.bg} 50%,${t.card} 50%)`)).join('');
+  const sel=cur.startsWith('u:')?us.find(x=>'u:'+x.id===cur):null;
+  return `<div class="card"><h2>Tema de ${esc(lg.nome)}</h2><p class="mut" style="margin-bottom:10px">Cada idioma tem o seu próprio tema. Tocar num tema só escolhe, não altera.</p><div class="tgrid">${base}${mine}</div><button class="btn" data-act="novotema">+ Novo tema</button>${sel?`<div class="two"><button class="btn sec" data-act="editartema">Editar tema</button><button class="btn red" data-act="apagartema">Apagar tema</button></div>`:''}</div>`}
+const TKEYS=[['bg','Fundo'],['card','Cartões'],['t','Texto'],['m','Texto secundário'],['line','Bordas']];
+function temaEditorHtml(t){const c=t||themeVars();
+  return `<div data-form="tema"><h2>${t?'Editar tema':'Novo tema'}</h2><label>Nome do tema</label><input type="text" name="nome" value="${esc(t?t.nome:'')}" maxlength="24" placeholder="Ex.: Café" autocomplete="off"><div id="tprev" style="border:1px solid ${c.line};background:${c.bg};border-radius:14px;padding:14px;margin-top:12px"><div style="background:${c.card};border:1px solid ${c.line};border-radius:12px;padding:12px;color:${c.t}"><b>Prévia</b><div style="color:${c.m};font-size:13px">Texto secundário</div></div></div><div class="two">${TKEYS.map(k=>`<div><label>${k[1]}</label><input type="color" name="${k[0]}" value="${c[k[0]]}" data-ec="${k[0]}"><input type="text" class="hx" data-eh="${k[0]}" value="${c[k[0]]}" maxlength="7" autocomplete="off" autocapitalize="off"></div>`).join('')}</div><button class="btn" data-act="submit">${t?'Salvar alterações':'Criar tema'}</button><button class="btn sec" data-act="close">Cancelar</button></div>`}
+function prevTema(){const g=k=>{const e=document.querySelector('#sheet [data-ec="'+k+'"]');return e?e.value:'#000000'},p=document.querySelector('#tprev');if(!p)return;p.style.background=g('bg');p.style.borderColor=g('line');const i=p.firstElementChild;if(i){i.style.background=g('card');i.style.borderColor=g('line');i.style.color=g('t');if(i.lastElementChild)i.lastElementChild.style.color=g('m')}}
+function corCard(l){const cor=l.cor||PAL[0];
+  return `<div class="card"><h2>Cor do idioma</h2>${swHtml('lcor',cor,'data-lcor')}<label>Ou digite um código (hexadecimal)</label><div class="hexrow"><span class="hexsw" style="background:${cor}"></span><input type="text" data-lhex value="${cor}" maxlength="7" placeholder="#10b981" autocomplete="off" autocapitalize="off"></div><label>Minhas cores</label>${(S.cores||[]).map(c=>`<div class="log" data-act="usarcor" data-id="${c.id}" style="cursor:pointer"><div style="display:flex;align-items:center;gap:10px"><span class="hexsw" style="background:${c.hex}"></span><div><b>${esc(c.nome)}</b><small>${c.hex}</small></div></div><div><button class="ib" data-act="editcor" data-id="${c.id}" aria-label="Editar cor">✏️</button> <button class="ib" data-act="delcor" data-id="${c.id}" aria-label="Apagar cor">✕</button></div></div>`).join('')||'<p class="mut">Nenhuma cor salva ainda.</p>'}<button class="btn" data-act="novacor">+ Nova cor</button></div>`}
+function corEditorHtml(c){const hex=c?c.hex:(L().cor||PAL[0]);
+  return `<div data-form="cor"><h2>${c?'Editar cor':'Nova cor'}</h2><label>Nome (opcional)</label><input type="text" name="nome" value="${esc(c?c.nome:'')}" placeholder="Ex.: Verde-limão" maxlength="24" autocomplete="off"><label>Cor</label><div class="hexrow"><input type="color" name="hex" value="${hex}" data-cc style="width:64px;padding:3px"><input type="text" data-ch value="${hex}" maxlength="7" autocomplete="off" autocapitalize="off"></div><p class="mut" style="margin-top:10px">${c?'Idiomas que usam esta cor passam para a nova.':'A cor nova só entra na lista. Para usar, toque nela depois.'}</p><button class="btn" data-act="submit">${c?'Salvar alterações':'Salvar cor'}</button><button class="btn sec" data-act="close">Cancelar</button></div>`}
 function cfgCard(){const c=Object.assign({},isLight(themeVars().bg)?DEFL:DEF,S.cfg);return `<div class="card"><h2>Aparência das palavras</h2><div class="log" style="justify-content:center;flex-direction:column;text-align:center;margin:0 0 6px"><b style="color:var(--c1);font-size:var(--fs)"><span dir="rtl">كتاب</span></b><span style="color:var(--c3);font-size:calc(var(--fs)*.55)">kitāb</span><span style="color:var(--c2);font-size:var(--fs)">livro</span></div><label>Tamanho da letra</label><input type="range" min="16" max="56" value="${c.fs}" data-cfg="fs"><div class="two"><div><label>Palavra</label><input type="color" value="${c.c1}" data-cfg="c1"></div><div><label>Tradução</label><input type="color" value="${c.c2}" data-cfg="c2"></div></div><label>Transcrição</label><input type="color" value="${c.c3}" data-cfg="c3"><button class="btn sec" data-act="cfgreset">Restaurar padrão</button></div>`}
 const mesNome=k=>`${MES[+k.slice(5,7)-1]} / ${k.slice(0,4)}`;
 
 let S=load();
 const PAL=['#10b981','#f59e0b','#38bdf8','#a78bfa','#f472b6','#fb7185','#2dd4bf','#a3e635'];
-function migrar(){S.langs.forEach((l,i)=>{if(!l.cor)l.cor=PAL[i%PAL.length]});if(S.tema){S.langs.forEach(l=>{if(!l.tema){l.tema=S.tema;if(S.custom)l.custom=S.custom}});delete S.tema;delete S.custom}}
+function migrar(){S.langs.forEach((l,i)=>{if(!l.cor)l.cor=PAL[i%PAL.length]});if(S.tema){S.langs.forEach(l=>{if(!l.tema){l.tema=S.tema;if(S.custom)l.custom=S.custom}});delete S.tema;delete S.custom}S.langs.forEach(l=>{if(l.tema==='custom'){const c=Object.assign({bg:'#0b0f19',card:'#131c2e',t:'#f3f4f6',m:'#8b97ad',line:'#22324f'},l.custom),us=(S.temas=S.temas||[]);let nome='Personalizado '+l.nome,n=2;while(us.some(x=>x.nome===nome))nome='Personalizado '+l.nome+' '+(n++);const t={id:uid(),nome,bg:c.bg,card:c.card,t:c.t,m:c.m,line:c.line};us.push(t);l.tema='u:'+t.id;delete l.custom}})}
 migrar();
 let ui={tab:'inicio',edit:null,card:null};
 function load(){try{const d=JSON.parse(localStorage.getItem(KEY));if(d&&Array.isArray(d.langs))return d}catch(e){}return{langs:[],atual:null}}
@@ -193,6 +215,21 @@ function toast(msg,act){
   if(act){const b=document.createElement('button');b.textContent=act.label;b.onclick=()=>{act.fn();el.remove()};el.appendChild(b)}
   $('#toasts').appendChild(el);setTimeout(()=>el.remove(),act?5000:2800);
 }
+const DK='lingo-track-rascunho';
+function lerRasc(){try{return JSON.parse(localStorage.getItem(DK))||null}catch(e){return null}}
+const vz=o=>!o||!Object.values(o).some(Boolean);
+function gravaRasc(r){try{if(vz(r.p)&&vz(r.r))localStorage.removeItem(DK);else localStorage.setItem(DK,JSON.stringify(r))}catch(e){}}
+function salvarRasc(){const l=L();if(!l)return;let r=lerRasc();if(!r||r.lang!==l.id)r={lang:l.id,tab:ui.tab,p:null,r:null};
+  const f=n=>{const q=a=>{const e=document.querySelector(`[data-form="${n}"] [name="${a}"]`);return e?e.value:''};return n==='palavra'?{p:q('p'),t:q('t'),tr:q('tr')}:{hh:q('hh'),mm:q('mm'),nota:q('nota')}};
+  if(document.querySelector('[data-form="palavra"]'))r.p=f('palavra');
+  if(document.querySelector('[data-form="reg"]')&&!ui.edit)r.r=f('reg');
+  r.tab=ui.tab;gravaRasc(r)}
+function limparRasc(k){const r=lerRasc();if(!r)return;r[k]=null;gravaRasc(r)}
+function fitCards(){document.querySelectorAll('.fc p').forEach(p=>{const fi=p.querySelector('.fi');if(!fi)return;p.style.fontSize='';let fs=parseFloat(getComputedStyle(p).fontSize),n=0;while(fi.offsetHeight>p.clientHeight-28&&fs>11&&n<60){fs-=2;p.style.fontSize=fs+'px';n++}})}
+function palHtml(){const l=L(),lista=l.palavras.slice().reverse(),i=lista.findIndex(x=>x.id===ui.pv),p=lista[i];if(!p)return '';
+  return `<div class="row" style="margin-bottom:12px"><span class="mut">${i+1} de ${lista.length}</span><button class="ib" data-act="close" aria-label="Fechar">✕</button></div><div class="pcard"><div class="pw1">${w(p.p)}</div>${p.tr?`<div class="pw2">${w(p.tr)}</div>`:''}<div class="pw3">${w(p.t)}</div><div class="mut" style="margin-top:14px">${br(p.data)}</div></div><div class="two" style="margin-top:14px"><button class="btn sec" style="margin:0" data-act="palant" ${i>0?'':'disabled'}>◀ Anterior</button><button class="btn sec" style="margin:0" data-act="palprox" ${i<lista.length-1?'':'disabled'}>Próxima ▶</button></div>`}
+function movePal(dx){const l=L(),lista=l.palavras.slice().reverse(),i=lista.findIndex(x=>x.id===ui.pv),n=lista[i+dx];if(!n)return;ui.pv=n.id;$('#sheet>div').innerHTML=palHtml()}
+function moveCard(dx){const l=L(),n=l.palavras.length;if(!n)return;const i=l.palavras.findIndex(x=>x.id===ui.card);ui.card=l.palavras[(i+dx+n)%n].id;render()}
 const FLAGS=['🇺🇸','🇬🇧','🇸🇦','🇪🇬','🇧🇷','🇵🇹','🇪🇸','🇫🇷','🇩🇪','🇮🇹','🇯🇵','🇰🇷','🇨🇳','🇷🇺','🇹🇷','🇮🇳','🌍','📚','🕌','🐪'];
 const flagBtns=()=>FLAGS.map(f=>`<button type="button" data-act="pickflag" data-f="${f}">${f}</button>`).join('');
 const LOAD_MS=2500;
@@ -207,12 +244,12 @@ const sorted=l=>l.regs.slice().sort((a,b)=>b.data.localeCompare(a.data)||b.id.lo
 function cardHtml(l){
   if(!l.palavras.length)return'';
   let p=l.palavras.find(x=>x.id===ui.card);if(!p){p=l.palavras[Math.floor(Math.random()*l.palavras.length)];ui.card=p.id}
-  return `<div class="card"><div class="row"><h2>Flashcard</h2><button class="ib" data-act="nextcard" aria-label="Próxima palavra">⟳</button></div><div class="fc" data-act="flip"><div><p>${w(p.p)}${p.tr?`<span class="tr">${w(p.tr)}</span>`:''}</p><p>${w(p.t)}</p></div></div><p class="mut" style="text-align:center;margin-top:8px">Toque no cartão para ver a tradução</p></div>`;
+  return `<div class="card"><div class="row"><h2>Flashcard</h2><div><button class="ib" data-act="cardprev" aria-label="Palavra anterior">◀</button> <button class="ib" data-act="nextcard" aria-label="Palavra aleatória">⟳</button> <button class="ib" data-act="cardnext" aria-label="Próxima palavra">▶</button></div></div><div class="fc" data-act="flip"><div><p><span class="fi">${w(p.p)}${p.tr?`<span class="tr" style="display:block">${w(p.tr)}</span>`:''}</span></p><p><span class="fi">${w(p.t)}</span></p></div></div><p class="mut" style="text-align:center;margin-top:8px">Toque no cartão para ver a tradução</p></div>`;
 }
 
 const views={
 inicio(l){
-  const s=stats(l),m=metaAtiva(l),e=ui.edit&&l.regs.find(r=>r.id===ui.edit),tipo=e?e.tipo:'a';
+  const dr=lerRasc(),d0=(dr&&dr.lang===l.id&&dr.r)||{};const s=stats(l),m=metaAtiva(l),e=ui.edit&&l.regs.find(r=>r.id===ui.edit),tipo=e?e.tipo:'a';
   const max=Math.max(1,s.t.p,s.t.a,s.t.e);
   let h='';
   h+=m?`<div class="card"><div class="row"><span class="mut">Meta de ${m.horas}h ativas</span><span class="pill">${pct(l,m)}%</span></div><div class="big" style="margin-top:8px">${fmt(s.ativas)}</div><div class="bar"><i style="width:${pct(l,m)}%"></i></div><div class="mut">Faltam ${fmt(Math.max(0,m.horas*60-s.ativas))}</div></div>`
@@ -221,14 +258,15 @@ inicio(l){
   h+=`<div class="card"><h2>Por categoria</h2>${['p','a','e'].map(k=>`<div class="tp ${k}"><span>${TIPOS[k]}</span><div class="bar"><i style="width:${s.t[k]/max*100}%"></i></div><em>${fmt(s.t[k])}</em></div>`).join('')}</div>`;
   if(s.topH||s.topW)h+=`<div class="grid">${s.topH?`<div class="card"><div class="mut">🏆 Mês com mais horas</div><b>${mesNome(s.topH[0])}</b><div class="mut">${fmt(s.topH[1])}</div></div>`:''}${s.topW?`<div class="card"><div class="mut">📖 Mês com mais palavras</div><b>${mesNome(s.topW[0])}</b><div class="mut">${s.topW[1]} palavras</div></div>`:''}</div>`;
   h+=cardHtml(l);
-  h+=`<div class="card" id="reg" data-form="reg"><h2>${e?'Editar sessão':'Registrar sessão'}</h2><label>Categoria</label><div class="seg">${['p','a','e'].map(k=>`<label style="margin:0"><input type="radio" name="tipo" value="${k}" ${k===tipo?'checked':''}><span>${TIPOS[k]}</span></label>`).join('')}</div><label>Data</label><input type="date" name="data" value="${e?e.data:today()}" required><div class="two"><div><label>Horas</label><input type="number" name="hh" min="0" inputmode="numeric" placeholder="0" value="${e?Math.floor(e.min/60)||'':''}"></div><div><label>Minutos</label><input type="number" name="mm" min="0" max="59" inputmode="numeric" placeholder="30" value="${e?e.min%60||'':''}"></div></div><label>Nota (opcional)</label><input type="text" name="nota" placeholder="O que você fez? Aparece só no Histórico" value="${e?esc(e.nota||''):''}" autocomplete="off"><button class="btn" data-act="submit">${e?'Salvar alterações':'Adicionar sessão'}</button>${e?'<button type="button" class="btn sec" data-act="canceledit">Cancelar edição</button>':''}</div>`;
+  h+=`<div class="card" id="reg" data-form="reg"><h2>${e?'Editar sessão':'Registrar sessão'}</h2><label>Categoria</label><div class="seg">${['p','a','e'].map(k=>`<label style="margin:0"><input type="radio" name="tipo" value="${k}" ${k===tipo?'checked':''}><span>${TIPOS[k]}</span></label>`).join('')}</div><label>Data</label><input type="date" name="data" value="${e?e.data:today()}" required><div class="two"><div><label>Horas</label><input type="number" name="hh" min="0" inputmode="numeric" placeholder="0" value="${e?Math.floor(e.min/60)||'':esc(d0.hh||'')}"></div><div><label>Minutos</label><input type="number" name="mm" min="0" max="59" inputmode="numeric" placeholder="30" value="${e?e.min%60||'':esc(d0.mm||'')}"></div></div><label>Nota (opcional)</label><input type="text" name="nota" placeholder="O que você fez? Aparece só no Histórico" value="${e?esc(e.nota||''):esc(d0.nota||'')}" autocomplete="off"><button class="btn" data-act="submit">${e?'Salvar alterações':'Adicionar sessão'}</button>${e?'<button type="button" class="btn sec" data-act="canceledit">Cancelar edição</button>':''}</div>`;
   h+=`<h2 style="margin:20px 2px 0">Recentes</h2>${sorted(l).slice(0,5).map(r=>logItem(r)).join('')||'<p class="mut" style="margin-top:8px">Nenhuma sessão ainda. Registre a primeira acima.</p>'}`;
   return h;
 },
 historico(l){return `<h2 style="margin-top:18px">Histórico (${l.regs.length})</h2>${sorted(l).map(r=>logItem(r,true)).join('')||'<p class="mut">Nenhuma sessão registrada neste idioma.</p>'}`},
 palavras(l){
-  return cardHtml(l)+`<div class="card" data-form="palavra"><h2>Nova palavra</h2><label>Palavra</label><input type="text" name="p" autocomplete="off"><label>Tradução</label><input type="text" name="t" autocomplete="off"><label>Transcrição (opcional)</label><input type="text" name="tr" placeholder="Ex.: kitāb" autocomplete="off"><button class="btn" data-act="submit">Salvar palavra</button></div>${cfgCard()}<h2 style="margin:20px 2px 0">Todas (${l.palavras.length})</h2>`+
-  l.palavras.slice().reverse().map(p=>`<div class="log"><div><b style="color:var(--c1)">${w(p.p)}</b> · ${w(p.t)}${p.tr?`<small class="trl">${w(p.tr)}</small>`:''}<small>${br(p.data)}</small></div><button class="ib" data-act="delword" data-id="${p.id}" aria-label="Apagar">✕</button></div>`).join('');
+  const dr=lerRasc(),dp=(dr&&dr.lang===l.id&&dr.p)||{};
+  return cardHtml(l)+`<div class="card" data-form="palavra"><h2>Nova palavra</h2><label>Palavra</label><input type="text" name="p" value="${esc(dp.p||'')}" autocomplete="off"><label>Tradução</label><input type="text" name="t" value="${esc(dp.t||'')}" autocomplete="off"><label>Transcrição (opcional)</label><input type="text" name="tr" value="${esc(dp.tr||'')}" placeholder="Ex.: kitāb" autocomplete="off"><button class="btn" data-act="submit">Salvar palavra</button></div><h2 style="margin:20px 2px 0">Todas (${l.palavras.length})</h2>`+
+  l.palavras.slice().reverse().map(p=>`<div class="log" data-act="verpal" data-id="${p.id}" style="cursor:pointer"><div><b style="color:var(--c1)">${w(p.p)}</b> · ${w(p.t)}${p.tr?`<small class="trl">${w(p.tr)}</small>`:''}<small>${br(p.data)}</small></div><button class="ib" data-act="delword" data-id="${p.id}" aria-label="Apagar">✕</button></div>`).join('');
 },
 metas(l){
   const a=l.metas.filter(m=>!m.fim),c=l.metas.filter(m=>m.fim);
@@ -236,8 +274,13 @@ metas(l){
   `<h2 style="margin:20px 2px 0">Em andamento</h2>`+(a.map(m=>`<div class="card"><div class="row"><b>${m.horas}h</b><div><span class="pill">${pct(l,m)}%</span> <button class="ib" data-act="delmeta" data-id="${m.id}" aria-label="Apagar">✕</button></div></div><div class="bar"><i style="width:${pct(l,m)}%"></i></div><div class="mut">Criada em ${br(m.criada)}</div></div>`).join('')||'<p class="mut">Nenhuma meta ativa.</p>')+
   `<h2 style="margin:20px 2px 0">Concluídas</h2>`+(c.map(m=>`<div class="log"><div><b>${m.horas}h</b> ✅<small>${br(m.criada)} até ${br(m.fim)} · ${dias(m.criada,m.fim)} dias</small></div><button class="ib" data-act="delmeta" data-id="${m.id}" aria-label="Apagar">✕</button></div>`).join('')||'<p class="mut">Ainda nenhuma.</p>');
 },
+visual(l){return temaCard()+corCard(l)+cfgCard()},
 ajustes(l){
-  return temaCard()+`<div class="card"><h2>Backup (todos os idiomas)</h2><button class="btn" data-act="export">Baixar backup (JSON)</button><button class="btn sec" data-act="copy">Copiar JSON</button><button class="btn sec" data-act="import">Importar backup</button></div><div class="card"><h2>Idioma: ${esc(l.nome)}</h2><div class="row" style="margin-bottom:4px"><span style="font-size:34px">${esc(l.flag||'🌍')}</span><button class="ib" style="width:auto;padding:0 14px;height:38px" data-act="editlang">Editar nome e ícone</button></div><label>Criado em</label><div class="row"><b>${l.criado?br(l.criado):'não registrada'}</b><button class="ib" style="width:auto;padding:0 14px" data-act="chdate">Alterar</button></div>${(l.hd||[]).slice(-3).reverse().map(h=>`<small class="mut" style="display:block;margin-top:4px">Alterada em ${br(h.em)}: ${h.de?br(h.de):'vazia'} → ${br(h.para)}</small>`).join('')}<label>Última alteração</label><b>${dt(l.alterado)}</b><label>Cor do idioma</label>${swHtml('lcor',l.cor||PAL[0],'data-lcor')}<p class="mut" style="margin-top:12px">Apaga todas as sessões, palavras e metas deste idioma.</p><button class="btn red" data-act="dellang">Apagar este idioma</button></div><p class="mut" style="text-align:center;margin-top:18px">Seus dados ficam só neste navegador. Faça backup de vez em quando.</p><div class="mut" style="text-align:center;font-size:12px;margin:22px 0 6px;line-height:1.7"><div>Lingo Track · versão ${APP.v}</div><div>Made by Emanuel · © ${anosApp()}</div><div>Criado em ${APP.d}</div><button class="lm" data-act="versoes">Ler mais</button></div>`;
+  const sub=ui.sub||'geral';
+  return `<div class="sub"><button class="${sub==='geral'?'on':''}" data-act="sub" data-s="geral">Geral</button><button class="${sub==='personalizar'?'on':''}" data-act="sub" data-s="personalizar">Personalização</button></div>`+(sub==='personalizar'?views.visual(l):views.geral(l));
+},
+geral(l){
+  return `<div class="card"><h2>Backup (todos os idiomas)</h2><button class="btn" data-act="export">Baixar backup (JSON)</button><button class="btn sec" data-act="copy">Copiar JSON</button><button class="btn sec" data-act="import">Importar backup</button></div><div class="card"><h2>Idioma: ${esc(l.nome)}</h2><div class="row" style="margin-bottom:4px"><span style="font-size:34px">${esc(l.flag||'🌍')}</span><button class="ib" style="width:auto;padding:0 14px;height:38px" data-act="editlang">Editar nome e ícone</button></div><label>Criado em</label><div class="row"><b>${l.criado?br(l.criado):'não registrada'}</b><button class="ib" style="width:auto;padding:0 14px" data-act="chdate">Alterar</button></div>${(l.hd||[]).slice(-3).reverse().map(h=>`<small class="mut" style="display:block;margin-top:4px">Alterada em ${br(h.em)}: ${h.de?br(h.de):'vazia'} → ${br(h.para)}</small>`).join('')}<label>Última alteração</label><b>${dt(l.alterado)}</b><p class="mut" style="margin-top:12px">Apaga todas as sessões, palavras e metas deste idioma.</p><button class="btn red" data-act="dellang">Apagar este idioma</button></div><p class="mut" style="text-align:center;margin-top:18px">Seus dados ficam só neste navegador. Faça backup de vez em quando.</p><div class="mut" style="text-align:center;font-size:12px;margin:22px 0 6px;line-height:1.7"><div>Lingo Track · versão ${APP.v}</div><div>Made by Emanuel · © ${anosApp()}</div><div>Criado em ${APP.d}</div><button class="lm" data-act="versoes">Ler mais</button></div>`;
 }};
 
 function render(){
@@ -247,7 +290,7 @@ function render(){
   if(!l)body=`<div class="empty"><div class="big">🌍</div><h2 style="margin-top:14px;font-size:20px">Qual idioma você estuda?</h2><p class="mut">Crie o primeiro idioma para começar a registrar horas e palavras.</p><button class="btn" data-act="newlang">Criar idioma</button><button class="btn sec" data-act="demo">Ver com dados de exemplo</button><button class="btn sec" data-act="import">Importar um backup</button></div>`;
   else body=`<div class="view" key="${ui.tab}">${views[ui.tab](l)}</div>`;
   const tabs=[['inicio','🏠','Início'],['historico','📜','Histórico'],['palavras','🔤','Palavras'],['metas','🎯','Metas'],['ajustes','⚙️','Ajustes']];
-  $('#app').innerHTML=`<div class="top">${hd}</div>${body}`+(l?`<nav><div>${tabs.map(t=>`<button class="${ui.tab===t[0]?'on':''}" data-act="tab" data-tab="${t[0]}"><b>${t[1]}</b>${t[2]}</button>`).join('')}</div></nav>`:'');
+  $('#app').innerHTML=`<div class="top">${hd}</div>${body}`+(l?`<nav><div>${tabs.map(t=>`<button class="${ui.tab===t[0]?'on':''}" data-act="tab" data-tab="${t[0]}"><b>${t[1]}</b>${t[2]}</button>`).join('')}</div></nav>`:'');fitCards();
 }
 
 const acts={
@@ -259,6 +302,19 @@ const acts={
   pickflag(d){const i=$('#sheet [name=flag]');if(i)i.value=d.f},
   editlang(){const l=L();sheet(`<div data-form="editlang"><h2>Editar idioma</h2><label>Nome</label><input type="text" name="nome" value="${esc(l.nome)}" maxlength="24" autocomplete="off"><label>Ícone ou bandeira (digite, cole ou escolha)</label><input type="text" name="flag" value="${esc(l.flag||'')}" autocomplete="off"><div class="fgrid">${flagBtns()}</div><button class="btn" data-act="submit">Salvar</button><button class="btn sec" data-act="close">Cancelar</button></div>`)},
   versoes(){sheet(`<h2>Histórico de versões</h2><p class="mut">O Lingo Track é uma versão atualizada do Time Tracking, o app mais simples que só aceitava um idioma. Aqui ficam as melhorias de cada versão.</p>${CHANGES.map(c=>`<div style="margin:14px 0"><b>Versão ${c[0]}</b>${c[1]?` <span class="mut">· ${c[1]}</span>`:''}<div class="mut">${c[2]}</div></div>`).join('')}<button class="btn sec" data-act="close">Fechar</button>`)},
+  cardprev(){moveCard(-1)},
+  cardnext(){moveCard(1)},
+  verpal(d){ui.pv=d.id;sheet(palHtml())},
+  palant(){movePal(-1)},
+  palprox(){movePal(1)},
+  apagartema(){const t=(S.temas||[]).find(x=>'u:'+x.id===L().tema);if(!t)return;confirmSheet(`Apagar o tema "${esc(t.nome)}"? Os idiomas que usam ele voltam para o tema Escuro.`,()=>{S.temas=S.temas.filter(x=>x.id!==t.id);S.langs.forEach(l=>{if(l.tema==='u:'+t.id)l.tema='escuro'});save();render();toast('Tema apagado')},'Apagar')},
+  usarcor(d){const c=(S.cores||[]).find(x=>x.id===d.id);if(!c)return;const l=L();l.cor=c.hex;touch(l);save();render();toast('Cor aplicada')},
+  delcor(d){const c=(S.cores||[]).find(x=>x.id===d.id);if(!c)return;confirmSheet(`Apagar a cor "${esc(c.nome)}"? Idiomas que usam ela continuam com a mesma cor.`,()=>{S.cores=S.cores.filter(x=>x.id!==c.id);save();render();toast('Cor apagada')},'Apagar')},
+  novotema(){ui.te=null;sheet(temaEditorHtml(null))},
+  editartema(){const t=(S.temas||[]).find(x=>'u:'+x.id===L().tema);if(!t)return;ui.te=t.id;sheet(temaEditorHtml(t))},
+  novacor(){ui.ce=null;sheet(corEditorHtml(null))},
+  editcor(d){const c=(S.cores||[]).find(x=>x.id===d.id);if(!c)return;ui.ce=c.id;sheet(corEditorHtml(c))},
+  sub(d){ui.sub=d.s;render()},
   panel(){sheet(panelHtml(),true)},
   chdate(){const l=L();confirmSheet(`Alterar a data de criação de ${esc(l.nome)}? Hoje ela é ${l.criado?br(l.criado):'vazia'}.`,()=>acts.pickdate(),'Continuar')},
   pickdate(){const l=L();sheet(`<div data-form="pickdate"><h2>Nova data de criação</h2><input type="date" name="d" value="${l.criado||today()}"><button class="btn" data-act="submit">Continuar</button><button class="btn sec" data-act="close">Cancelar</button></div>`)},
@@ -293,6 +349,17 @@ const acts={
 };
 function fields(el){return new Proxy({},{get:(_,k)=>{const all=el.querySelectorAll(`[name="${k}"]`);if(all.length>1&&all[0].type==='radio'){const c=el.querySelector(`[name="${k}"]:checked`);return{value:c?c.value:''}}return all[0]}})}
 const forms={
+  tema(f){const l=L(),nome=f.nome.value.trim();if(!nome)return toast('Digite um nome para o tema');
+    const us=S.temas=S.temas||[],ed=ui.te?us.find(x=>x.id===ui.te):null;
+    if(us.some(x=>x.id!==(ed&&ed.id)&&x.nome.toLowerCase()===nome.toLowerCase()))return toast('Já existe um tema com esse nome');
+    const v={nome,bg:f.bg.value,card:f.card.value,t:f.t.value,m:f.m.value,line:f.line.value};
+    if(ed){Object.assign(ed,v);toast('Tema atualizado')}else{const t=Object.assign({id:uid()},v);us.push(t);l.tema='u:'+t.id;toast('Tema criado')}
+    ui.te=null;touch(l);save();closeSheet();render()},
+  cor(f){const h=hexOk(f.hex.value);if(!h)return toast('Código de cor inválido');const cs=S.cores=S.cores||[],ed=ui.ce?cs.find(x=>x.id===ui.ce):null;
+    if(cs.some(x=>x.id!==(ed&&ed.id)&&x.hex===h))return toast('Essa cor já está salva');
+    const nome=f.nome.value.trim()||h;
+    if(ed){const antes=ed.hex;ed.nome=nome;ed.hex=h;S.langs.forEach(l=>{if(l.cor===antes)l.cor=h});toast('Cor atualizada')}else{cs.push({id:uid(),nome,hex:h});toast('Cor salva')}
+    ui.ce=null;save();closeSheet();render()},
   editlang(f){const l=L(),nome=f.nome.value.trim();if(!nome)return toast('Digite o nome do idioma');
     if(S.langs.some(x=>x.id!==l.id&&x.nome.toLowerCase()===nome.toLowerCase()))return toast('Já existe um idioma com esse nome');
     l.nome=nome;l.flag=f.flag.value.trim();touch(l);save();closeSheet();render();toast('Idioma atualizado')},
@@ -304,28 +371,33 @@ const forms={
     S.langs=S.langs.filter(x=>x.id!==l.id);S.atual=S.langs[0]?S.langs[0].id:null;ui.tab='inicio';save();closeSheet();render();toast('Idioma apagado')},
   reg(f){const l=L(),min=(+f.hh.value||0)*60+(+f.mm.value||0);if(!min)return toast('Informe horas ou minutos');if(!f.data.value)return toast('Escolha a data');
     const v={data:f.data.value,tipo:f.tipo.value,min,nota:f.nota.value.trim()};
-    if(ui.edit){Object.assign(l.regs.find(r=>r.id===ui.edit),v);ui.edit=null;toast('Sessão atualizada')}else{l.regs.push({id:uid(),...v});toast('Sessão registrada: '+fmt(min))}
+    if(ui.edit){Object.assign(l.regs.find(r=>r.id===ui.edit),v);ui.edit=null;toast('Sessão atualizada')}else{l.regs.push({id:uid(),...v});limparRasc('r');toast('Sessão registrada: '+fmt(min))}
     checkGoals(l);touch(l);save();render()},
-  palavra(f){const l=L();if(!f.p.value.trim()||!f.t.value.trim())return toast('Preencha a palavra e a tradução');l.palavras.push({id:uid(),p:f.p.value.trim(),t:f.t.value.trim(),tr:f.tr.value.trim(),data:today()});touch(l);save();render();toast('Palavra salva')},
+  palavra(f){const l=L();if(!f.p.value.trim()||!f.t.value.trim())return toast('Preencha a palavra e a tradução');l.palavras.push({id:uid(),p:f.p.value.trim(),t:f.t.value.trim(),tr:f.tr.value.trim(),data:today()});touch(l);save();limparRasc('p');render();toast('Palavra salva')},
   meta(f){const l=L(),h=+f.horas.value;if(!(h>=1))return toast('Informe as horas da meta');l.metas.push({id:uid(),horas:h,criada:today(),fim:null});checkGoals(l);touch(l);save();render();toast('Meta criada')}
 };
 document.addEventListener('click',e=>{const b=e.target.closest('[data-act]');if(b&&acts[b.dataset.act])acts[b.dataset.act](b.dataset,b);else if(e.target.id==='sheet')closeSheet()});
 document.addEventListener('keydown',e=>{if(e.key==='Enter'&&e.target.tagName==='INPUT'){const el=e.target.closest('[data-form]');if(el){e.preventDefault();const ins=[...el.querySelectorAll('input:not([type=radio])')],i=ins.indexOf(e.target);if(i>=0&&i<ins.length-1)ins[i+1].focus();else forms[el.dataset.form](fields(el))}}});
-document.addEventListener('input',e=>{if(e.target.dataset.lcor!==undefined){L().cor=e.target.value;touch(L());save();applyCfg();return}if(e.target.dataset.ct){const l=L();l.custom=Object.assign({},l.custom,{[e.target.dataset.ct]:e.target.value});touch(l);applyCfg();save();return}const k=e.target.dataset.cfg;if(!k)return;S.cfg=Object.assign({},S.cfg,{[k]:e.target.value});applyCfg();save()});
+document.addEventListener('input',e=>{if(e.target.closest&&e.target.closest('[data-form="palavra"],[data-form="reg"]'))salvarRasc();if(e.target.dataset.ec!==undefined||e.target.dataset.eh!==undefined){const k=e.target.dataset.ec!==undefined?e.target.dataset.ec:e.target.dataset.eh;
+  if(e.target.dataset.eh!==undefined){const h=hexOk(e.target.value);e.target.style.borderColor=(h||!e.target.value)?'':'var(--r)';if(!h)return;const c=document.querySelector('#sheet [data-ec="'+k+'"]');if(c)c.value=h}
+  else{const t=document.querySelector('#sheet [data-eh="'+k+'"]');if(t){t.value=e.target.value;t.style.borderColor=''}}
+  prevTema();return}
+if(e.target.dataset.cc!==undefined){const t=document.querySelector('#sheet [data-ch]');if(t){t.value=e.target.value;t.style.borderColor=''}return}
+if(e.target.dataset.ch!==undefined){const h=hexOk(e.target.value);e.target.style.borderColor=(h||!e.target.value)?'':'var(--r)';if(!h)return;const c=document.querySelector('#sheet [data-cc]');if(c)c.value=h;return}
+if(e.target.dataset.lhex!==undefined){const h=hexOk(e.target.value);e.target.style.borderColor=(h||!e.target.value)?'':'var(--r)';if(!h)return;const l=L();l.cor=h;touch(l);save();applyCfg();const sw=document.querySelector('.hexsw');if(sw)sw.style.background=h;document.querySelectorAll('[data-lcor]').forEach(r=>{r.checked=r.value===h});return}
+if(e.target.dataset.cth){const h=hexOk(e.target.value);e.target.style.borderColor=(h||!e.target.value)?'':'var(--r)';if(!h)return;const k=e.target.dataset.cth;setCor(k,h);applyCfg();const c=document.querySelector('[data-ct="'+k+'"]');if(c)c.value=h;save();return}
+if(e.target.dataset.lcor!==undefined){L().cor=e.target.value;touch(L());save();applyCfg();const hx=document.querySelector('[data-lhex]');if(hx){hx.value=e.target.value;hx.style.borderColor=''}const sw=document.querySelector('.hexsw');if(sw)sw.style.background=e.target.value;return}if(e.target.dataset.ct){setCor(e.target.dataset.ct,e.target.value);applyCfg();const hh=document.querySelector('[data-cth="'+e.target.dataset.ct+'"]');if(hh){hh.value=e.target.value;hh.style.borderColor=''}save();return}const k=e.target.dataset.cfg;if(!k)return;S.cfg=Object.assign({},S.cfg,{[k]:e.target.value});applyCfg();fitCards();save()});
 $('#file').addEventListener('change',e=>{
   const file=e.target.files[0];e.target.value='';if(!file)return;
   const r=new FileReader();
   r.onload=()=>{try{const d=JSON.parse(r.result);if(!d||!Array.isArray(d.langs))throw 0;
-    confirmSheet(`Importar backup com ${d.langs.length} idioma(s)? Isso substitui os dados atuais.`,()=>{S={langs:d.langs,atual:d.atual||(d.langs[0]&&d.langs[0].id)||null,cfg:d.cfg,tema:d.tema,custom:d.custom};migrar();ui.tab='inicio';save();render();toast('Backup importado')},'Importar')}
+    confirmSheet(`Importar backup com ${d.langs.length} idioma(s)? Isso substitui os dados atuais.`,()=>{S={langs:d.langs,atual:d.atual||(d.langs[0]&&d.langs[0].id)||null,cfg:d.cfg,tema:d.tema,custom:d.custom,temas:d.temas,cores:d.cores};migrar();ui.tab='inicio';save();render();toast('Backup importado')},'Importar')}
     catch(x){toast('Arquivo inválido. Use um backup do Lingo Track.')}};
   r.readAsText(file);
 });
+{const r=lerRasc();if(r&&S.langs.some(x=>x.id===r.lang)){S.atual=r.lang;ui.tab=r.tab||'inicio'}}
 render();
 showLoad(L()?(L().flag||'🌍'):'📖','Carregando…',1300);
-let oculto=0;
-function retomar(){closeSheet();ui.tab='inicio';ui.edit=null;render();scrollTo(0,0);showLoad(L()?(L().flag||'🌍'):'📖','Abrindo…',1300)}
-document.addEventListener('visibilitychange',()=>{if(document.hidden){oculto=Date.now()}else{if(oculto&&Date.now()-oculto>5000)retomar();oculto=0}});
-if(typeof window!=='undefined')window.addEventListener('pageshow',e=>{if(e.persisted)retomar()});
 </script>
 </body>
 </html>
